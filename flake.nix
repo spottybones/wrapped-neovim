@@ -1,7 +1,7 @@
 {
   description = "Wrapped Neovim with my MiniMax Setup";
 
-  inputs.nixpkgs.url = "nixpkgs";
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   inputs.wrappers.url = "github:nix-community/nix-wrapper-modules";
   inputs.wrappers.inputs.nixpkgs.follows = "nixpkgs";
 
