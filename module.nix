@@ -40,8 +40,14 @@ inputs:
   config.specs.nix = {
     data = null;
     runtimePkgs = with pkgs; [
-      nixd
-      nixfmt
+      {
+        data = nixd;
+        prefix = true;
+      }
+      {
+        data = nixfmt;
+        prefix = true;
+      }
     ];
   };
   # You can use the before and after fields to run them before or after other specs or spec of lists of specs
@@ -52,8 +58,14 @@ inputs:
       lazydev-nvim
     ];
     runtimePkgs = with pkgs; [
-      lua-language-server
-      stylua
+      {
+        data = lua-language-server;
+        prefix = true;
+      }
+      {
+        data = stylua;
+        prefix = true;
+      }
     ];
   };
 
@@ -63,7 +75,10 @@ inputs:
     lazy = true;
     data = null;
     runtimePkgs = with pkgs; [
-      basedpyright
+      {
+        data = basedpyright;
+        prefix = true;
+      }
     ];
   };
 
@@ -73,7 +88,10 @@ inputs:
     lazy = true;
     data = null;
     runtimePkgs = with pkgs; [
-      just-lsp
+      {
+        data = just-lsp;
+        prefix = true;
+      }
     ];
   };
 
@@ -83,8 +101,14 @@ inputs:
     # after = [ "lze" ];
     # note we didn't have to specify the `lze` specs name, because it was a top level spec
     runtimePkgs = with pkgs; [
-      lazygit
-      tree-sitter
+      {
+        data = lazygit;
+        prefix = true;
+      }
+      {
+        data = tree-sitter;
+        prefix = true;
+      }
     ];
     # this `lazy = true` definition will transfer to specs in the contained DAL, if there is one.
     # This is because the definition of lazy in `config.specMods` checks `parentSpec.lazy or false`
