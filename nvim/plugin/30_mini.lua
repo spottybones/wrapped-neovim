@@ -55,14 +55,14 @@ vim.cmd("colorscheme miniwinter")
 -- - `:h MiniBasics.config.mappings` - list of created mappings
 -- - `:h MiniBasics.config.autocommands` - list of created autocommands
 require("mini.basics").setup({
-	-- Manage options in 'plugin/10_options.lua' for didactic purposes
-	options = { basic = false },
-	mappings = {
-		-- Create `<C-hjkl>` mappings for window navigation
-		windows = true,
-		-- Create `<M-hjkl>` mappings for navigation in Insert and Command modes
-		move_with_alt = true,
-	},
+  -- Manage options in 'plugin/10_options.lua' for didactic purposes
+  options = { basic = false },
+  mappings = {
+    -- Create `<C-hjkl>` mappings for window navigation
+    windows = true,
+    -- Create `<M-hjkl>` mappings for navigation in Insert and Command modes
+    move_with_alt = true,
+  },
 })
 
 -- Icon provider. Usually no need to use manually. It is used by plugins like
@@ -71,9 +71,9 @@ require("mini.basics").setup({
 local ext3_blocklist = { scm = true, txt = true, yml = true }
 local ext4_blocklist = { json = true, yaml = true }
 require("mini.icons").setup({
-	use_file_extension = function(ext, _)
-		return not (ext3_blocklist[ext:sub(-3)] or ext4_blocklist[ext:sub(-4)])
-	end,
+  use_file_extension = function(ext, _)
+    return not (ext3_blocklist[ext:sub(-3)] or ext4_blocklist[ext:sub(-4)])
+  end,
 })
 
 -- Mock 'nvim-tree/nvim-web-devicons' for plugins without 'mini.icons' support.
@@ -181,23 +181,23 @@ require("mini.extra").setup()
 -- - `:h MiniAi-textobject-specification` - examples of custom textobjects
 local ai = require("mini.ai")
 ai.setup({
-	-- 'mini.ai' can be extended with custom textobjects
-	custom_textobjects = {
-		-- Make `aB` / `iB` act on around/inside whole *b*uffer
-		B = MiniExtra.gen_ai_spec.buffer(),
-		-- For more complicated textobjects that require structural awareness,
-		-- use tree-sitter. This example makes `aF`/`iF` mean around/inside function
-		-- definition (not call). See `:h MiniAi.gen_spec.treesitter()` for details.
-		F = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
-	},
+  -- 'mini.ai' can be extended with custom textobjects
+  custom_textobjects = {
+    -- Make `aB` / `iB` act on around/inside whole *b*uffer
+    B = MiniExtra.gen_ai_spec.buffer(),
+    -- For more complicated textobjects that require structural awareness,
+    -- use tree-sitter. This example makes `aF`/`iF` mean around/inside function
+    -- definition (not call). See `:h MiniAi.gen_spec.treesitter()` for details.
+    F = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+  },
 
-	-- 'mini.ai' by default mostly mimics built-in search behavior: first try
-	-- to find textobject covering cursor, then try to find to the right.
-	-- Although this works in most cases, some are confusing. It is more robust to
-	-- always try to search only covering textobject and explicitly ask to search
-	-- for next (`an`/`in`) or last (`an`/`il`).
-	-- Try this. If you don't like it - delete next line and this comment.
-	search_method = "cover",
+  -- 'mini.ai' by default mostly mimics built-in search behavior: first try
+  -- to find textobject covering cursor, then try to find to the right.
+  -- Although this works in most cases, some are confusing. It is more robust to
+  -- always try to search only covering textobject and explicitly ask to search
+  -- for next (`an`/`in`) or last (`an`/`il`).
+  -- Try this. If you don't like it - delete next line and this comment.
+  search_method = "cover",
 })
 
 -- Align text interactively. Example usage:
@@ -362,22 +362,22 @@ require("mini.comment").setup()
 -- Don't show 'Text' suggestions (usually noisy) and show snippets last.
 local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
 local process_items = function(items, base)
-	return MiniCompletion.default_process_items(items, base, process_items_opts)
+  return MiniCompletion.default_process_items(items, base, process_items_opts)
 end
 require("mini.completion").setup({
-	lsp_completion = {
-		-- Without this config autocompletion is set up through `:h 'completefunc'`.
-		-- Although not needed, setting up through `:h 'omnifunc'` is cleaner
-		-- (sets up only when needed) and makes it possible to use `<C-u>`.
-		source_func = "omnifunc",
-		auto_setup = false,
-		process_items = process_items,
-	},
+  lsp_completion = {
+    -- Without this config autocompletion is set up through `:h 'completefunc'`.
+    -- Although not needed, setting up through `:h 'omnifunc'` is cleaner
+    -- (sets up only when needed) and makes it possible to use `<C-u>`.
+    source_func = "omnifunc",
+    auto_setup = false,
+    process_items = process_items,
+  },
 })
 
 -- Set 'omnifunc' for LSP completion only when needed.
 local on_attach = function(ev)
-	vim.bo[ev.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
+  vim.bo[ev.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
 end
 _G.Config.new_autocmd("LspAttach", nil, on_attach, "Set 'omnifunc'")
 
@@ -439,8 +439,8 @@ require("mini.diff").setup()
 -- - `:h MiniFiles-examples` - examples of common setups
 -- Enable directory/file preview
 require("mini.files").setup({
-	options = { use_as_default_explorer = true },
-	windows = { preview = true },
+  options = { use_as_default_explorer = true },
+  windows = { preview = true },
 })
 
 -- Add common bookmarks for every explorer. Example usage inside explorer:
@@ -472,17 +472,17 @@ require("mini.git").setup()
 local hipatterns = require("mini.hipatterns")
 local hi_words = MiniExtra.gen_highlighter.words
 hipatterns.setup({
-	highlighters = {
-		-- Highlight a fixed set of common words. Will be highlighted in any place,
-		-- not like "only in comments".
-		fixme = hi_words({ "FIXME", "Fixme", "fixme" }, "MiniHipatternsFixme"),
-		hack = hi_words({ "HACK", "Hack", "hack" }, "MiniHipatternsHack"),
-		todo = hi_words({ "TODO", "Todo", "todo" }, "MiniHipatternsTodo"),
-		note = hi_words({ "NOTE", "Note", "note" }, "MiniHipatternsNote"),
+  highlighters = {
+    -- Highlight a fixed set of common words. Will be highlighted in any place,
+    -- not like "only in comments".
+    fixme = hi_words({ "FIXME", "Fixme", "fixme" }, "MiniHipatternsFixme"),
+    hack = hi_words({ "HACK", "Hack", "hack" }, "MiniHipatternsHack"),
+    todo = hi_words({ "TODO", "Todo", "todo" }, "MiniHipatternsTodo"),
+    note = hi_words({ "NOTE", "Note", "note" }, "MiniHipatternsNote"),
 
-		-- Highlight hex color string (#aabbcc) with that color as a background
-		hex_color = hipatterns.gen_highlighter.hex_color(),
-	},
+    -- Highlight hex color string (#aabbcc) with that color as a background
+    hex_color = hipatterns.gen_highlighter.hex_color(),
+  },
 })
 
 -- Visualize and work with indent scope. It visualizes indent scope "at cursor"
@@ -496,13 +496,13 @@ hipatterns.setup({
 -- See also:
 -- - `:h MiniIndentscope.gen_animation` - available animation rules
 require("mini.indentscope").setup({
-	draw = {
-		delay = 10,
-		animation = function(s, n)
-			return 10
-		end,
-	},
-	symbol = "│",
+  draw = {
+    delay = 10,
+    animation = function(s, n)
+      return 10
+    end,
+  },
+  symbol = "│",
 })
 
 -- Jump to next/previous single character. It implements "smarter `fFtT` keys"
@@ -558,23 +558,23 @@ MiniKeymap.map_multistep("i", "<BS>", { "minipairs_bs" })
 -- NOTE: Might introduce lag on very big buffers (10000+ lines)
 local map = require("mini.map")
 map.setup({
-	-- Use Braille dots to encode text
-	symbols = { encode = map.gen_encode_symbols.dot("4x2") },
-	-- Show built-in search matches, 'mini.diff' hunks, and diagnostic entries
-	integrations = {
-		map.gen_integration.builtin_search(),
-		map.gen_integration.diff(),
-		map.gen_integration.diagnostic(),
-	},
+  -- Use Braille dots to encode text
+  symbols = { encode = map.gen_encode_symbols.dot("4x2") },
+  -- Show built-in search matches, 'mini.diff' hunks, and diagnostic entries
+  integrations = {
+    map.gen_integration.builtin_search(),
+    map.gen_integration.diff(),
+    map.gen_integration.diagnostic(),
+  },
 })
 
 -- Map built-in navigation characters to force map refresh
 for _, key in ipairs({ "n", "N", "*", "#" }) do
-	local rhs = key
-		-- Also open enough folds when jumping to the next match
-		.. "zv"
-		.. "<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>"
-	vim.keymap.set("n", key, rhs)
+  local rhs = key
+    -- Also open enough folds when jumping to the next match
+    .. "zv"
+    .. "<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>"
+  vim.keymap.set("n", key, rhs)
 end
 
 -- Move any selection in any direction. Example usage in Normal mode:
@@ -701,21 +701,21 @@ require("mini.pick").setup()
 -- Define language patterns to work better with 'friendly-snippets'
 local latex_patterns = { "latex/**/*.json", "**/latex.json" }
 local lang_patterns = {
-	tex = latex_patterns,
-	plaintex = latex_patterns,
-	-- Recognize special injected language of markdown tree-sitter parser
-	markdown_inline = { "markdown.json" },
+  tex = latex_patterns,
+  plaintex = latex_patterns,
+  -- Recognize special injected language of markdown tree-sitter parser
+  markdown_inline = { "markdown.json" },
 }
 
 local snippets = require("mini.snippets")
 local config_path = vim.fn.stdpath("config")
 snippets.setup({
-	snippets = {
-		-- Always load 'snippets/global.json' from config directory
-		snippets.gen_loader.from_file(config_path .. "/snippets/global.json"),
-		-- Load from 'snippets/' directory of plugins, like 'friendly-snippets'
-		snippets.gen_loader.from_lang({ lang_patterns = lang_patterns }),
-	},
+  snippets = {
+    -- Always load 'snippets/global.json' from config directory
+    snippets.gen_loader.from_file(config_path .. "/snippets/global.json"),
+    -- Load from 'snippets/' directory of plugins, like 'friendly-snippets'
+    snippets.gen_loader.from_lang({ lang_patterns = lang_patterns }),
+  },
 })
 
 -- By default snippets available at cursor are not shown as candidates in

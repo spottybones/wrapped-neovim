@@ -29,33 +29,37 @@
 --
 -- Add these plugins now if file (and not 'mini.starter') is shown after startup.
 
-  -- Define languages which will have parsers installed and auto enabled
-  local languages = {
-    -- These are already pre-installed with Neovim. Used as an example.
-    'lua',
-    'vimdoc',
-    'markdown',
-    -- Add here more languages with which you want to use tree-sitter
-    -- To see available languages:
-    -- - Execute `:=require('nvim-treesitter').get_available()`
-    -- - Visit 'SUPPORTED_LANGUAGES.md' file at
-    --   https://github.com/nvim-treesitter/nvim-treesitter/blob/main
-  }
-  local isnt_installed = function(lang)
-    return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0
-  end
-  local to_install = vim.tbl_filter(isnt_installed, languages)
-  if #to_install > 0 then require('nvim-treesitter').install(to_install) end
+-- Define languages which will have parsers installed and auto enabled
+local languages = {
+  -- These are already pre-installed with Neovim. Used as an example.
+  "lua",
+  "vimdoc",
+  "markdown",
+  -- Add here more languages with which you want to use tree-sitter
+  -- To see available languages:
+  -- - Execute `:=require('nvim-treesitter').get_available()`
+  -- - Visit 'SUPPORTED_LANGUAGES.md' file at
+  --   https://github.com/nvim-treesitter/nvim-treesitter/blob/main
+}
+local isnt_installed = function(lang)
+  return #vim.api.nvim_get_runtime_file("parser/" .. lang .. ".*", false) == 0
+end
+local to_install = vim.tbl_filter(isnt_installed, languages)
+if #to_install > 0 then
+  require("nvim-treesitter").install(to_install)
+end
 
-  -- Enable tree-sitter after opening a file for a target language
-  local filetypes = {}
-  for _, lang in ipairs(languages) do
-    for _, ft in ipairs(vim.treesitter.language.get_filetypes(lang)) do
-      table.insert(filetypes, ft)
-    end
+-- Enable tree-sitter after opening a file for a target language
+local filetypes = {}
+for _, lang in ipairs(languages) do
+  for _, ft in ipairs(vim.treesitter.language.get_filetypes(lang)) do
+    table.insert(filetypes, ft)
   end
-  local ts_start = function(ev) vim.treesitter.start(ev.buf) end
-  _G.Config.new_autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
+end
+local ts_start = function(ev)
+  vim.treesitter.start(ev.buf)
+end
+_G.Config.new_autocmd("FileType", filetypes, ts_start, "Start tree-sitter")
 
 -- Language servers ===========================================================
 
@@ -73,18 +77,18 @@
 --
 -- Add it now if file (and not 'mini.starter') is shown after startup.
 
-  -- Use `:h vim.lsp.enable()` to automatically enable language server based on
-  -- the rules provided by 'nvim-lspconfig'.
-  -- Use `:h vim.lsp.config()` or 'ftplugin/lsp/' directory to configure servers.
-  -- Uncomment and tweak the following `vim.lsp.enable()` call to enable servers.
-  vim.lsp.enable({
-    'basedpyright',
-    'clangd',
-    'just',
-    'lua_ls',
-    'nixd',
-    'ruff',
-  })
+-- Use `:h vim.lsp.enable()` to automatically enable language server based on
+-- the rules provided by 'nvim-lspconfig'.
+-- Use `:h vim.lsp.config()` or 'ftplugin/lsp/' directory to configure servers.
+-- Uncomment and tweak the following `vim.lsp.enable()` call to enable servers.
+vim.lsp.enable({
+  "basedpyright",
+  "clangd",
+  "just",
+  "lua_ls",
+  "nixd",
+  "ruff",
+})
 
 -- Formatting =================================================================
 
@@ -95,41 +99,41 @@
 -- The 'stevearc/conform.nvim' plugin is a good and maintained solution for easier
 -- formatting setup.
 
-  -- See also:
-  -- - `:h Conform`
-  -- - `:h conform-options`
-  -- - `:h conform-formatters`
-  require('conform').setup({
-    -- Map of filetype to formatters
-    -- Make sure that necessary CLI tool is available
-    formatters_by_ft = {
-      cpp = { 'clang-format' },
-      just = { 'just' },
-      lua = { 'stylua' },
-      nix = { 'nixfmt' },
-      python = { 'ruff' },
-    },
-    format_on_save = {
-      lsp_format = 'fallback',
-      timeout_ms = 500,
-    },
-  })
+-- See also:
+-- - `:h Conform`
+-- - `:h conform-options`
+-- - `:h conform-formatters`
+require("conform").setup({
+  -- Map of filetype to formatters
+  -- Make sure that necessary CLI tool is available
+  formatters_by_ft = {
+    cpp = { "clang-format" },
+    just = { "just" },
+    lua = { "stylua" },
+    nix = { "nixfmt" },
+    python = { "ruff" },
+  },
+  format_on_save = {
+    lsp_format = "fallback",
+    timeout_ms = 500,
+  },
+})
 
 -- Linters =====
 --
 -- Set up nvim-lint for extra tools
-  local lint = require('lint')
-  lint.linters_by_ft = {
-    c = { 'cppcheck' },
-    cpp = { 'cppcheck' },
-  }
-  vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-    callback = function()
-      -- try_lint without arguments runs the linters defined in `linters_by_ft`
-      -- for the current filetype
-      lint.try_lint()
-    end,
-  })
+local lint = require("lint")
+lint.linters_by_ft = {
+  c = { "cppcheck" },
+  cpp = { "cppcheck" },
+}
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  callback = function()
+    -- try_lint without arguments runs the linters defined in `linters_by_ft`
+    -- for the current filetype
+    lint.try_lint()
+  end,
+})
 
 -- Snippets ===================================================================
 
@@ -159,19 +163,19 @@
 -- Beautiful, usable, well maintained color schemes outside of 'mini.nvim' and
 -- have full support of its highlight groups. Use if you don't like 'miniwinter'
 -- enabled in 'plugin/30_mini.lua' or other suggested 'mini.hues' based ones.
-  --   -- Install only those that you need
-  --   add('sainnhe/everforest')
-  --   add('Shatur/neovim-ayu')
-  --   add('ellisonleao/gruvbox.nvim')
-  --
-  --   -- Enable only one
-  vim.cmd('color tokyonight-moon')
+--   -- Install only those that you need
+--   add('sainnhe/everforest')
+--   add('Shatur/neovim-ayu')
+--   add('ellisonleao/gruvbox.nvim')
+--
+--   -- Enable only one
+vim.cmd("color tokyonight-moon")
 
 -- set up Snacks for Lazygit
-  require('snacks').setup()
-  lazy = false
-  priority = 1000
-  opts = {
-    explorer = { enabled = true },
-    lazygit = { enabled = true },
-  }
+require("snacks").setup()
+lazy = false
+priority = 1000
+opts = {
+  explorer = { enabled = true },
+  lazygit = { enabled = true },
+}

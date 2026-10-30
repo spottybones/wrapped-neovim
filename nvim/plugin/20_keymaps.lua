@@ -7,18 +7,18 @@
 -- General mappings ===========================================================
 
 -- Use this section to add custom general mappings. See `:h vim.keymap.set()`.
-vim.keymap.set('i', 'jk', '<ESC>', { desc = 'Quick exit from insert mode' })
+vim.keymap.set("i", "jk", "<ESC>", { desc = "Quick exit from insert mode" })
 
 -- An example helper to create a Normal mode mapping
 local nmap = function(lhs, rhs, desc)
   -- See `:h vim.keymap.set()`
-  vim.keymap.set('n', lhs, rhs, { desc = desc })
+  vim.keymap.set("n", lhs, rhs, { desc = desc })
 end
 
 -- Paste linewise before/after current line
 -- Usage: `yiw` to yank a word and `]p` to put it on the next line.
-nmap('[p', '<Cmd>exe "put! " . v:register<CR>', 'Paste Above')
-nmap(']p', '<Cmd>exe "put "  . v:register<CR>', 'Paste Below')
+nmap("[p", '<Cmd>exe "put! " . v:register<CR>', "Paste Above")
+nmap("]p", '<Cmd>exe "put "  . v:register<CR>', "Paste Below")
 
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
