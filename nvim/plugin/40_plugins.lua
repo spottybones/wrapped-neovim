@@ -83,7 +83,6 @@ _G.Config.new_autocmd("FileType", filetypes, ts_start, "Start tree-sitter")
 -- Uncomment and tweak the following `vim.lsp.enable()` call to enable servers.
 vim.lsp.enable({
   "basedpyright",
-  "clangd",
   "just",
   "lua_ls",
   "nixd",
@@ -107,7 +106,6 @@ require("conform").setup({
   -- Map of filetype to formatters
   -- Make sure that necessary CLI tool is available
   formatters_by_ft = {
-    cpp = { "clang-format" },
     just = { "just" },
     lua = { "stylua" },
     nix = { "nixfmt" },
