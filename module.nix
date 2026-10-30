@@ -79,6 +79,10 @@ inputs:
         data = basedpyright;
         prefix = true;
       }
+      {
+        data = ruff;
+        prefix = true;
+      }
     ];
   };
 
