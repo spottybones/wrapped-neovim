@@ -108,12 +108,7 @@ end
 
 nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
 nmap_leader('ef', explore_at_file,                          'File directory')
-nmap_leader('ei', '<Cmd>edit $MYVIMRC<CR>',                 'init.lua')
-nmap_leader('ek', edit_plugin_file('20_keymaps.lua'),       'Keymaps config')
-nmap_leader('em', edit_plugin_file('30_mini.lua'),          'MINI config')
 nmap_leader('en', '<Cmd>lua MiniNotify.show_history()<CR>', 'Notifications')
-nmap_leader('eo', edit_plugin_file('10_options.lua'),       'Options config')
-nmap_leader('ep', edit_plugin_file('40_plugins.lua'),       'Plugins config')
 nmap_leader('eq', explore_quickfix,                         'Quickfix')
 nmap_leader('es', '<cmd>lua Snacks.explorer()<CR>',         'Snacks Explorer')
 
