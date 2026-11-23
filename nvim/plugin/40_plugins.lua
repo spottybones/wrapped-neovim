@@ -110,10 +110,12 @@ require("conform").setup({
     lua = { "stylua" },
     nix = { "nixfmt" },
     python = { "ruff" },
+    sql = { "sqlfluff" },
   },
+
   format_on_save = {
     lsp_format = "fallback",
-    timeout_ms = 500,
+    timeout_ms = 2000,
   },
 })
 
@@ -124,12 +126,21 @@ local lint = require("lint")
 lint.linters_by_ft = {
   c = { "cppcheck" },
   cpp = { "cppcheck" },
+  sql = { "sqlfluff" },
 }
+
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   callback = function()
     -- try_lint without arguments runs the linters defined in `linters_by_ft`
     -- for the current filetype
-    lint.try_lint()
+
+    if vim.bo.filetype == "sql" then
+      -- make sure sqlfluff is run from the buffer's directory in order
+      -- to read any .sqlfluff configuration file placed there.
+      lint.try_lint("sqlfluff", { cwd = vim.fn.expand("%:p:h") })
+    else
+      lint.try_lint()
+    end
   end,
 })
 

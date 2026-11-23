@@ -41,6 +41,9 @@ inputs:
     # general
     lazygit
     tree-sitter
+
+    # sql
+    sqlfluff
   ];
   settings.config_directory = ./nvim;
 
